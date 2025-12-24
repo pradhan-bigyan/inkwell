@@ -1,10 +1,10 @@
 const { Client } = require("pg");
 const fs = require("fs");
-const config = require("../config.json");
+require("dotenv").config();
 
 async function setupTables() {
   const client = new Client({
-    connectionString: config.connectionString,
+    connectionString: process.env.CONNECTION_STRING,
     ssl: { rejectUnauthorized: false },
   });
 
