@@ -3,8 +3,8 @@
 @import "tailwindcss";
 
 @theme {
-  --color-secondary: #ef863e;
-  --color-primary: #2b85ff;
+  --color-secondary: #ffe135;
+  --color-primary: #ffda03;
 }
 
 @layer base {
@@ -24,7 +24,7 @@
   } */
 
   .btn-primary {
-    @apply font-bold w-full text-sm bg-primary text-white p-2 rounded-xl my-1 hover:bg-blue-600;
+    @apply font-bold w-full text-sm bg-primary text-white p-2 rounded-xl my-1 hover:bg-secondary;
   }
 
   .icon-btn {

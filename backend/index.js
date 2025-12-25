@@ -37,16 +37,16 @@ app.post("/create-account", async (req, res) => {
       return res.status(409).json({ message: "User already exists." });
     }
 
-    const result = await User.create(fullName, email, password);
+    const user = await User.create(fullName, email, password);
 
-    const accessToken = jwt.sign({ result }, process.env.JWT_SECRET, {
+    const accessToken = jwt.sign({ user }, process.env.JWT_SECRET, {
       expiresIn: "72h",
     });
 
     return res.json({
       error: false,
       message: "Account created successfully.",
-      user: result,
+      user: user,
       accessToken,
     });
   } catch (error) {
@@ -124,12 +124,9 @@ app.post("/add-note", authenticateToken, async (req, res) => {
 app.get("/notes", authenticateToken, async (req, res) => {
   try {
     const userId = req.user.user.id;
-    if (!userId) {
-      navigate("/login");
-    }
 
     const notes = await Note.findAllNotes(userId);
-    res.status(200).json(notes);
+    res.status(200).json({ notes: notes });
   } catch (error) {
     res.status(500).json({ message: "Internal server error." });
   }
