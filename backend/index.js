@@ -10,11 +10,14 @@ require("dotenv").config();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 app.use(
   cors({
-    origin: "*",
+    origin: ["http://localhost:5173", "https://inkwell-7ehe.onrender.com"],
+    credentials: true,
   })
 );
+
 app.use(helmet());
 
 app.use(
