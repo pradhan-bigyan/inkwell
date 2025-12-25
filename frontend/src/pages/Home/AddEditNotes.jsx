@@ -104,7 +104,7 @@ const AddEditNotes = ({
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           className="text-2xl text-slate-950 outline-none"
-          placeholder="Go to Gym At 5"
+          placeholder="Prepare for the Job Interview"
         />
       </div>
       <div className="flex flex-col gap-2 mt-4">
