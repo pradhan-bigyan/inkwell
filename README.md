@@ -82,35 +82,35 @@ The Schema Design for the users and notes tables are in the inkwell/backend/db/s
 The API-documentation for the Inkwell API made using POSTMAN is linked below:
 [https://documenter.getpostman.com/view/47219965/2sBXVZpEzb](https://documenter.getpostman.com/view/47219965/2sBXVZpEzb)
 
+**Final Project Structure:**
 The overall file structure of the INKWELL project is:
-
-Inkwell
-
-- backend
-  -- controllers
-  -- db
-  -- models
-  -- routes
-  -- .env
-  -- .gitignore
-  -- index.js
-  -- package-lock\*.json
-  -- utilities.js
-- frontend
-  -- public
-  -- src
-  --- assets
-  --- components
-  --- pages
-  --- utils
-  --- App.css
-  --- App.jsx
-  --- index.css
-  --- main.jsx
-  -- .gitignore
-  -- index.html
-  -- package-lock\*.json
-  -- vite.config.js
+Inkwell/
+├── backend/
+│ ├── controllers/
+│ ├── db/
+│ ├── models/
+│ ├── routes/
+│ ├── .env
+│ ├── .gitignore
+│ ├── index.js
+│ ├── package-lock.json
+│ └── utilities.js
+│
+└── frontend/
+├── public/
+├── src/
+│ ├── assets/
+│ ├── components/
+│ ├── pages/
+│ ├── utils/
+│ ├── App.css
+│ ├── App.jsx
+│ ├── index.css
+│ └── main.jsx
+├── .gitignore
+├── index.html
+├── package-lock.json
+└── vite.config.js
 
 **Notes:**
 
