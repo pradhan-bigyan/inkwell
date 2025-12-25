@@ -3,6 +3,8 @@ const cors = require("cors");
 const { checkConnection } = require("./db/connect");
 const app = express();
 const router = require("./routes/routes");
+const helmet = require("helmet");
+const rateLimiter = require("express-rate-limit");
 
 require("dotenv").config();
 
@@ -11,6 +13,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
     origin: "*",
+  })
+);
+app.use(helmet());
+
+app.use(
+  rateLimiter({
+    windowMs: 15 * 60 * 1000,
+    max: 100,
   })
 );
 
