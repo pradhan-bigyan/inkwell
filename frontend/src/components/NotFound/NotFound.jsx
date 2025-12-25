@@ -28,7 +28,7 @@ const NotFound = () => {
           note-taking journey.
         </p>
         <p className="text-gray-600 mb-8 text-center">
-          Don't worry, let's get you back on track!
+          Let's get you back on track.
         </p>
         <button
           className="px-6 py-3 bg-primary text-white font-semibold rounded-lg shadow-md hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200"
