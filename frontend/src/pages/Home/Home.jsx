@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../utils/axiosInstance";
 import AddNoteImg from "../../assets/addNoteImg.svg";
 import EmptyNoteImg from "../../assets/emptyNote.svg";
+
 const Home = () => {
   const [openAddEditModal, setOpenAddEditModal] = React.useState({
     isShown: false,
@@ -24,9 +25,7 @@ const Home = () => {
   });
 
   const [allNotes, setAllNotes] = React.useState([]);
-
   const [userInfo, setUserInfo] = React.useState(null);
-
   const [isSearch, setIsSearch] = React.useState(false);
   const [searchQuery, setSearchQuery] = React.useState("");
 
@@ -68,12 +67,11 @@ const Home = () => {
   const getAllNotes = async () => {
     try {
       const response = await axiosInstance.get("/notes");
-
       if (response.data && response.data.notes) {
         setAllNotes(response.data.notes);
       }
     } catch (error) {
-      console.log("An unexpected error occured. Please try again.");
+      console.log("An unexpected error occurred. Please try again.");
     }
   };
 
@@ -99,7 +97,6 @@ const Home = () => {
       const response = await axiosInstance.get("/search-notes", {
         params: { q },
       });
-
       if (response.data && response.data.notes) {
         setIsSearch(true);
         setAllNotes(response.data.notes);
@@ -121,7 +118,6 @@ const Home = () => {
       const response = await axiosInstance.patch("/update-pin/" + noteId, {
         isPinned: !data.is_pinned,
       });
-
       if (response.data && response.data.note) {
         {
           response.data.note.is_pinned
@@ -153,10 +149,10 @@ const Home = () => {
       <div className="container mx-auto px-4">
         {allNotes.length > 0 ? (
           <>
-            <div className="flex mt-2 justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between mt-2 sm:mt-4 gap-4">
               <h1 className="text-2xl font-bold text-gray-800">My Notes</h1>
               <button
-                className="btn-primary w-25 text-white"
+                className="btn-primary text-white w-full sm:w-auto px-6 py-2 rounded-lg"
                 onClick={() => {
                   setOpenAddEditModal({ ...openAddEditModal, isShown: true });
                 }}
@@ -165,7 +161,7 @@ const Home = () => {
               </button>
             </div>
 
-            <div className="grid grid-cols-3 gap-4 mt-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
               {allNotes.map((note) => {
                 return (
                   <NoteCard
@@ -188,20 +184,20 @@ const Home = () => {
             imgSrc={isSearch ? EmptyNoteImg : AddNoteImg}
             message={
               isSearch
-                ? `Oops! Can't find the note that you are looking for.`
-                : `Start Creating your note: Click the '+' button to write down you thoughts, ideas.`
+                ? `Oops! Can't find the note that you're looking for.`
+                : `Start creating your notes: Click the '+' button to write down your thoughts and ideas.`
             }
           />
         )}
       </div>
 
       <button
-        className="w-16 h-16 flex items-center justify-center rounded-2xl bg-primary hover:bg-secondary absolute right-10 bottom-10"
+        className="w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center rounded-2xl bg-primary hover:bg-secondary fixed right-4 bottom-4 sm:right-10 sm:bottom-10 z-10 shadow-lg"
         onClick={() => {
           setOpenAddEditModal({ ...openAddEditModal, isShown: true });
         }}
       >
-        <MdAdd className="text-[32px] text-white" />
+        <MdAdd className="text-[28px] sm:text-[32px] text-white" />
       </button>
 
       <Modal
@@ -216,7 +212,7 @@ const Home = () => {
           },
         }}
         contentLabel=""
-        className="w-[80%] max-h-80vh bg-white rounded-md mx-auto mt-14 p-5 overflow-auto max-w-[600px]"
+        className="w-[90%] sm:w-[80%] max-h-80vh bg-white rounded-md mx-auto mt-14 p-4 sm:p-5 overflow-auto max-w-[600px]"
       >
         <AddEditNotes
           type={openAddEditModal.type}
