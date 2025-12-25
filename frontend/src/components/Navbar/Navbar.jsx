@@ -1,20 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import ProfileInfo from "../Cards/ProfileInfo";
 import SearchBar from "../SearchBar/SearchBar";
 
-const Navbar = ({ userInfo }) => {
-  const [searchQuery, setSearchQuery] = useState("");
+const Navbar = ({
+  userInfo,
+  onSearchNote,
+  searchQuery = "",
+  onClearSearch,
+}) => {
+  const [localSearchQuery, setLocalSearchQuery] = useState(searchQuery);
 
   const navigate = useNavigate();
   const location = useLocation();
 
+  // Sync with parent's searchQuery
+  useEffect(() => {
+    setLocalSearchQuery(searchQuery);
+  }, [searchQuery]);
+
   const showAuthElements = () => {
-    const authRoutes = ["/notes", "/search-notes"];
+    const authRoutes = ["/notes", "/"];
     const token = localStorage.getItem("token");
 
     return (
-      token && authRoutes.some((route) => location.pathname.startsWith(route))
+      token &&
+      authRoutes.some(
+        (route) =>
+          location.pathname === route ||
+          location.pathname.startsWith(route + "/")
+      )
     );
   };
 
@@ -24,42 +39,50 @@ const Navbar = ({ userInfo }) => {
   };
 
   const handleSearch = () => {
-    if (searchQuery.trim()) {
-      navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+    if (localSearchQuery.trim()) {
+      onSearchNote(localSearchQuery.trim());
     }
   };
 
-  const onClearSearch = () => {
-    setSearchQuery("");
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
+
+  const handleClear = () => {
+    setLocalSearchQuery("");
+    if (onClearSearch) {
+      onClearSearch();
+    }
   };
 
   return (
-    <div className="bg-white flex items-center justify-between px-6 py-2 drop-shadow">
+    <div className="bg-[#252525] flex items-center justify-between px-6 py-3 drop-shadow">
       <h2
-        className="italic text-xl font-medium text-black py-2 cursor-pointer hover:text-blue-600 transition"
-        onClick={() => navigate("/")}
+        className="italic text-xl font-medium text-[#ffda03] py-2 cursor-pointer hover:text-[#ffe135] transition"
+        onClick={() => navigate("/notes")}
       >
         Inkwell
       </h2>
 
       {showAuthElements() && (
         <SearchBar
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          value={localSearchQuery}
+          onChange={(e) => setLocalSearchQuery(e.target.value)}
           handleSearch={handleSearch}
-          onClearSearch={onClearSearch}
+          onClearSearch={handleClear}
+          onKeyDown={handleKeyDown}
         />
       )}
 
-      {/* Show ProfileInfo only on auth routes */}
       {showAuthElements() && userInfo ? (
         <ProfileInfo userInfo={userInfo} onLogout={handleLogout} />
       ) : (
-        // Show nothing on auth pages, login button elsewhere
         !["/login", "/signup", "/"].includes(location.pathname) && (
           <button
             onClick={() => navigate("/login")}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+            className="px-4 py-2 bg-primary text-white font-bold rounded-lg hover:bg-secondary transition"
           >
             Login
           </button>

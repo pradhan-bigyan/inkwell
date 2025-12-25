@@ -1,13 +1,15 @@
 import React, { useEffect } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import NoteCard from "../../components/Cards/NoteCard";
+import EmptyCard from "../../components/Cards/EmptyCard";
 import { MdAdd } from "react-icons/md";
 import AddEditNotes from "./AddEditNotes";
 import Modal from "react-modal";
 import Toast from "../../components/ToastMessage/Toast";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../utils/axiosInstance";
-
+import AddNoteImg from "../../assets/addNoteImg.svg";
+import EmptyNoteImg from "../../assets/emptyNote.svg";
 const Home = () => {
   const [openAddEditModal, setOpenAddEditModal] = React.useState({
     isShown: false,
@@ -24,6 +26,9 @@ const Home = () => {
   const [allNotes, setAllNotes] = React.useState([]);
 
   const [userInfo, setUserInfo] = React.useState(null);
+
+  const [isSearch, setIsSearch] = React.useState(false);
+  const [searchQuery, setSearchQuery] = React.useState("");
 
   const navigate = useNavigate();
 
@@ -72,6 +77,64 @@ const Home = () => {
     }
   };
 
+  const deleteNote = async (data) => {
+    const noteId = data.id;
+    try {
+      const response = await axiosInstance.delete("/delete-note/" + noteId);
+      showToastMessage("Note Deleted Successfully", "delete");
+      getAllNotes();
+    } catch (error) {
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        console.log("An unexpected error occurred. Please try again.");
+      }
+    }
+  };
+
+  const onSearchNote = async (q) => {
+    try {
+      const response = await axiosInstance.get("/search-notes", {
+        params: { q },
+      });
+
+      if (response.data && response.data.notes) {
+        setIsSearch(true);
+        setAllNotes(response.data.notes);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleClearSearch = () => {
+    setSearchQuery("");
+    setIsSearch(false);
+    getAllNotes();
+  };
+
+  const updateIsPinned = async (data) => {
+    const noteId = data.id;
+    try {
+      const response = await axiosInstance.patch("/update-pin/" + noteId, {
+        isPinned: !data.is_pinned,
+      });
+
+      if (response.data && response.data.note) {
+        {
+          response.data.note.is_pinned
+            ? showToastMessage("Note Pinned Successfully")
+            : showToastMessage("Note Unpinned Successfully");
+        }
+        getAllNotes();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getAllNotes();
     getUserInfo();
@@ -80,26 +143,56 @@ const Home = () => {
 
   return (
     <>
-      <Navbar userInfo={userInfo} />
+      <Navbar
+        userInfo={userInfo}
+        onSearchNote={onSearchNote}
+        searchQuery={searchQuery}
+        onClearSearch={handleClearSearch}
+      />
 
-      <div className="bg- container mx-auto px-4">
-        <div className="grid grid-cols-3 gap-4 mt-8">
-          {allNotes.map((note) => {
-            return (
-              <NoteCard
-                key={note.id}
-                title={note.title}
-                date={note.created_at}
-                content={note.content}
-                tags={note.tags}
-                isPinned={true}
-                onEdit={() => handleEdit(note)}
-                onDelete={() => {}}
-                onPinNote={() => {}}
-              />
-            );
-          })}
-        </div>
+      <div className="container mx-auto px-4">
+        {allNotes.length > 0 ? (
+          <>
+            <div className="flex mt-2 justify-between">
+              <h1 className="text-2xl font-bold text-gray-800">My Notes</h1>
+              <button
+                className="btn-primary w-25 text-white"
+                onClick={() => {
+                  setOpenAddEditModal({ ...openAddEditModal, isShown: true });
+                }}
+              >
+                Add Note
+              </button>
+            </div>
+
+            <div className="grid grid-cols-3 gap-4 mt-6">
+              {allNotes.map((note) => {
+                return (
+                  <NoteCard
+                    key={note.id}
+                    title={note.title}
+                    date={note.created_at}
+                    content={note.content}
+                    tags={note.tags}
+                    isPinned={note.is_pinned}
+                    onEdit={() => handleEdit(note)}
+                    onDelete={() => deleteNote(note)}
+                    onPinNote={() => updateIsPinned(note)}
+                  />
+                );
+              })}
+            </div>
+          </>
+        ) : (
+          <EmptyCard
+            imgSrc={isSearch ? EmptyNoteImg : AddNoteImg}
+            message={
+              isSearch
+                ? `Oops! Can't find the note that you are looking for.`
+                : `Start Creating your note: Click the '+' button to write down you thoughts, ideas.`
+            }
+          />
+        )}
       </div>
 
       <button
@@ -123,7 +216,7 @@ const Home = () => {
           },
         }}
         contentLabel=""
-        className="w-[80%] max-h-80vh bg-white rounded-md nx-auto mt-14 p-5 overflow-auto max-w-[600px]"
+        className="w-[80%] max-h-80vh bg-white rounded-md mx-auto mt-14 p-5 overflow-auto max-w-[600px]"
       >
         <AddEditNotes
           type={openAddEditModal.type}
