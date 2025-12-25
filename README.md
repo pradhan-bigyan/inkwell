@@ -52,15 +52,15 @@ Inkwell is a full-stack note taking app that helps users add, organize and manag
     npm install
     ```
 
-    - create a `.env` file in backend and set the keys as:
-      `JWT_SECRET="secretKeyHere"`
-      `CONNECTION_STRING="connectionStrHere"`
-      `PORT=8000` (or any port you want)
+    create a `.env` file in backend and set the keys as:
+    `JWT_SECRET="secretKeyHere"`
+    `CONNECTION_STRING="connectionStrHere"`
+    `PORT=8000` (or any port you want)
 
 3.  Database Setup
 
     - Create a database
-    - Run/Execute the SQL Schema(in the db) to create users and notes table
+    - Run/Execute the SQL code(in the db/setupDatabase) to create users and notes table
 
 4.  Frontend Setup
 
@@ -77,10 +77,45 @@ Inkwell is a full-stack note taking app that helps users add, organize and manag
     - Frontend: (go to frontend directory) `npm run dev`
     - App will be available at `http://localhost:5173`
 
+The Schema Design for the users and notes tables are in the inkwell/backend/db/schema.sql
+
 The API-documentation for the Inkwell API made using POSTMAN is linked below:
 [https://documenter.getpostman.com/view/47219965/2sBXVZpEzb](https://documenter.getpostman.com/view/47219965/2sBXVZpEzb)
 
+The overall file structure of the INKWELL project is:
+
+Inkwell
+
+- backend
+  -- controllers
+  -- db
+  -- models
+  -- routes
+  -- .env
+  -- .gitignore
+  -- index.js
+  -- package-lock\*.json
+  -- utilities.js
+- frontend
+  -- public
+  -- src
+  --- assets
+  --- components
+  --- pages
+  --- utils
+  --- App.css
+  --- App.jsx
+  --- index.css
+  --- main.jsx
+  -- .gitignore
+  -- index.html
+  -- package-lock\*.json
+  -- vite.config.js
+
 **Notes:**
-Parameterized queries are used to prevent SQL injection and no string concatenations is used.
-Packages such as helemt and express-rate-limiter are used in order to furthur solidify the API security
-Using cors only the localhost url and the url of the site deployed on render are allowed to make request to the API.
+
+- Parameterized queries are used to prevent SQL injection and no string concatenations is used.
+- Packages such as helemt and express-rate-limiter are used in order to furthur solidify the API security
+- Using cors only the localhost url and the url of the site deployed on render are allowed to make request to the API.
+
+LICENSE = MIT
