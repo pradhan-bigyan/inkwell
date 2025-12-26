@@ -61,7 +61,7 @@ const Navbar = ({
     <div className="bg-[#252525] flex items-center justify-between px-6 py-3 drop-shadow">
       <h2
         className="italic text-xl font-medium text-[#ffda03] py-2 cursor-pointer hover:text-[#ffe135] transition"
-        onClick={() => navigate("/notes")}
+        onClick={() => navigate("/")}
       >
         Inkwell
       </h2>
