@@ -79,6 +79,8 @@ Inkwell is a full-stack note taking app that helps users add, organize and manag
 
 The Schema Design for the users and notes tables are in the inkwell/backend/db/schema.sql
 
+## API Documentation
+
 The API-documentation for the Inkwell API made using POSTMAN is linked below:
 [https://documenter.getpostman.com/view/47219965/2sBXVZpEzb](https://documenter.getpostman.com/view/47219965/2sBXVZpEzb)
 
