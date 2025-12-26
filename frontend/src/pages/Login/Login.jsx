@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import { Link, useNavigate } from "react-router-dom";
 import PasswordInput from "../../components/Input/PasswordInput";
@@ -12,6 +12,13 @@ const Login = () => {
   const [error, setError] = React.useState(null);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate("/notes");
+    }
+  }, [navigate]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
