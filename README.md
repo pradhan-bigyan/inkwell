@@ -84,33 +84,10 @@ The API-documentation for the Inkwell API made using POSTMAN is linked below:
 
 **Final Project Structure:**
 The overall file structure of the INKWELL project is:
-Inkwell/
-├── backend/
-│ ├── controllers/
-│ ├── db/
-│ ├── models/
-│ ├── routes/
-│ ├── .env
-│ ├── .gitignore
-│ ├── index.js
-│ ├── package-lock.json
-│ └── utilities.js
-│
-└── frontend/
-├── public/
-├── src/
-│ ├── assets/
-│ ├── components/
-│ ├── pages/
-│ ├── utils/
-│ ├── App.css
-│ ├── App.jsx
-│ ├── index.css
-│ └── main.jsx
-├── .gitignore
-├── index.html
-├── package-lock.json
-└── vite.config.js
+
+<img src="/projectStructure/projStr.png" width="500" height="auto" alt="main file structure">
+<img src="/projectStructure/backendStr.png" width="500" height="auto" alt="backend file structure">
+<img src="/projectStructure/frontendStr.png" width="500" height="auto" alt="frontend file structure">
 
 **Notes:**
 
@@ -118,4 +95,4 @@ Inkwell/
 - Packages such as helemt and express-rate-limiter are used in order to furthur solidify the API security
 - Using cors only the localhost url and the url of the site deployed on render are allowed to make request to the API.
 
-LICENSE = MIT
+This project is licensed under the MIT License.
