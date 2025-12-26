@@ -84,9 +84,12 @@ The API-documentation for the Inkwell API made using POSTMAN is linked below:
 
 **Final Project Structure:**
 The overall file structure of the INKWELL project is:
-<img src="/projectStructure/projStr.png" width="250" height="auto" alt="main file structure">
-<img src="/projectStructure/backendStr.png" width="250" height="auto" alt="backend file structure">
-<img src="/projectStructure/frontendStr.png" width="250" height="auto" alt="frontend file structure">
+
+<div>
+    <img src="/projectStructure/projStr.png" width="250" height="auto" alt="main file structure">
+    <img src="/projectStructure/backendStr.png" width="250" height="auto" alt="backend file structure">
+    <img src="/projectStructure/frontendStr.png" width="250" height="auto" alt="frontend file structure">
+</div>
 
 **Notes:**
 
